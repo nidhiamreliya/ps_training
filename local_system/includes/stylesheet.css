@@ -2,14 +2,15 @@
 {
 	border-bottom: 5px solid #00b359;
 	height: 90px;
+	padding-top: 5px;
 }
 .btn_head
 {
-	width: 100px;
+	border-radius: 5px;
 	font-weight: bold;
 	font-size: 18px;
-	margin-top: 30px;
-	padding: 10px 20px;
+	margin-top: 20px;
+	padding: 5px 20px;
 	text-align: center;
 }
 .btn_submit
@@ -40,3 +41,14 @@
 {
 	 border:2px solid red;
 }
+tr
+{
+	height: 30px;
+	text-align: center;
+}
+th
+{
+	height: 30px;
+	text-align: center;
+}
+

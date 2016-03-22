@@ -16,7 +16,7 @@ function checkpic()
 	} 
 	else
 	{
-		alert("Upload Gif or Jpg images only");
+		alert("Upload Gif, Jpg, jpeg or png images only");
 		fup.focus();
 		return false;
 	}

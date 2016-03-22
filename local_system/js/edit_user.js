@@ -9,7 +9,6 @@ function edit_user()
 	var confirm_password = document.edit_profile.confirm_password.value; 
 	var address_line1 = document.edit_profile.address_line1.value;  
 	var city = document.edit_profile.city.value;   
-	var city = document.edit_profile.city.value;  
 	var zip_code = document.edit_profile.zip_code.value;  
 	var state = document.edit_profile.state.value;
 	var country = document.edit_profile.country.value;      
@@ -33,6 +32,18 @@ function edit_user()
 			document.edit_profile.last_name.focus(); 
 			return false;  
 		}
+		if (! state.match(letters))  
+		{  
+			alert("Invalid state name");
+			document.edit_profile.state.focus();  
+			return false;  
+		}
+		if (! country.match(letters))  
+		{  
+			alert("Invalid country name");
+			document.edit_profile.country.focus();  
+			return false;  
+		}    
 		var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
 		if( ! email_id.match(mailformat))  
 		{  
@@ -61,7 +72,13 @@ function edit_user()
 			alert('You have entered an invalid zip code!'); 
 			document.edit_profile.zip_code.focus(); 
 			return false;     
-		}  
+		} 
+		if (! city.match(letters))  
+		{  
+			alert("Invalid city name");
+			document.edit_profile.city.focus();
+			return false;  
+		} 
 	}
 	return true;
 }

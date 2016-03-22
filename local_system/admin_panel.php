@@ -16,16 +16,17 @@
 	<div class="container-fluid">
 		<div class="row">	
 			<!-- page header -->
-			<div class="form_head">
-				<div class="col-md-4 col-md-offset-2">
+			<div class="form_head text-center">
+		      	<div class="col-md-4 col-md-offset-1">
 					<h1>Welcome Admin</h1>
 				</div>
-				<div class="col-md-3 col-md-offset-2">
+				<div class="col-md-3 col-md-offset-3 text-right">
 					<ul class="nav nav-pills">
   						<li role="presentation"><a value="Log out" class="btn-success btn_head" name="logout" href="controllers/log_out.php">Log out</a></li>
-					</ul>
+  						<li class="presentation"><a value="My Profile" class="btn-success btn_head"  name="myprofile" href="user_profile.php">My Profile</a></li>
+					</ul>				
 				</div>
-			</div>
+		    </div> 
 		</div>
 		<!-- page body -->
 		<div class="row">
@@ -42,40 +43,44 @@
 			}
 			else
 			{
-				// Table header
-				echo '<table class="table-striped col-md-12 table-bordered table-responsive">';
-				echo '<tr>';
-				echo '<th>First name</th>';
-				echo '<th>Last name</th>';
-				echo '<th>User name</th>';
-				echo '<th>Email id</th>';
-				echo '<th colspan=2>Address</th>';
-				echo '<th>City</th>';
-				echo '<th>Zip code</th>';
-				echo '<th>State</th>';
-				echo '<th>Country</th>';
-				echo '<th>Edit</th>';
-				echo '<th>Delete</th>';
-				echo '</tr>';
-				// Table data
+			?>
+				<!-- Table header -->
+				<table class="table-striped col-md-12 table-bordered table-responsive">
+					<tr>
+						<th>First name</th>
+						<th>Last name</th>
+						<th>User name</th>
+						<th>Email id</th>
+						<th colspan=2>Address</th>
+						<th>City</th>
+						<th>Zip code</th>
+						<th>State</th>
+						<th>Country</th>
+						<th>Edit</th>
+						<th>Delete</th>
+					</tr>
+				<!-- Table data -->
+				<?php
 				foreach ($user_data as $row)
 				{
 					if($row['privilege'] != 2)
-					{
-						echo '<tr>';
-						echo '<td>' . $row['first_name'] . '</td>';
-						echo '<td>' . $row['last_name'] . '</td>';
-						echo '<td>' . $row['user_name'] . '</td>';
-						echo '<td>' . $row['email_id'] . '</td>';
-						echo '<td>' . $row['address_line1'] . '</td>';
-						echo '<td>' . $row['address_line2'] . '</td>';
-						echo '<td>' . $row['city'] . '</td>';
-						echo '<td>' . $row['zip_code'] . '</td>';
-						echo '<td>' . $row['state'] . '</td>';
-						echo '<td>' . $row['country'] . '</td>';
-						echo '<td><a href=\'user_profile.php?id='.$row['user_id'].'\'>Edit</a></td>';
-						echo '<td><a onclick="return confirm(\'Are you Sure you want to delete ' . $row['first_name'] . '!\');" href=\'controllers/delete_user.php?id='.$row['user_id'].'\' >Delete</a></td>';
-						echo '</tr>';
+					{	
+				?>
+						<tr>
+							<td> <?php echo $row['first_name'] ?> </td>
+							<td> <?php echo $row['last_name'] ?> </td>
+							<td> <?php echo $row['user_name'] ?> </td>
+							<td> <?php echo $row['email_id'] ?> </td>
+							<td> <?php echo $row['address_line1'] ?> </td>
+							<td> <?php echo $row['address_line2'] ?> </td>
+							<td> <?php echo $row['city'] ?> </td>
+							<td> <?php echo$row['zip_code'] ?> </td>
+							<td> <?php echo $row['state'] ?> </td>
+							<td> <?php echo $row['country'] ?> </td>
+							<td> <a href=\'user_profile.php?id=<?php echo $row['user_id'] ?>'>Edit</a></td>
+							<td> <a onclick="return confirm(\'Are you Sure you want to delete \'<?php echo $row['first_name'] ?> \'!);" href='controllers/delete_user.php?id=<?php echo $row['user_id'] ?>' >Delete</a></td>
+						</tr>
+				<?php		
 					}
 				}
 				echo '</table>';
@@ -85,7 +90,7 @@
 		</div>
 		<!-- Print messge on successful delete data. -->  
 		<div class="row">
-			<span class="col-md-6 col-md-offset-3 text-center alert-success" >
+			<span class="col-md-4 col-md-offset-4 text-center alert-success" >
 				<?php
 					if(isset($message))
 					{

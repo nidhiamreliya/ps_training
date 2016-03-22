@@ -1,6 +1,7 @@
 <?php
 	include('../includes/session.php');
 	include('../config/database.php');
+	include('../config/globals.php');
 	// Retrive data from post data
 	foreach ($_POST as $key => $value)
 	{
@@ -100,19 +101,28 @@
 	if (count($_SESSION['errors']) == 0)
 	{
 		// Checks if same user name or email id exist in database or not.
-		$check_duplicate = get_row("select user_id from user_data where user_name = ? or email_id = ? ", array($user_name, $email_id));
+		$check_duplicate = get_row("select user_name, email_id from user_data where user_name = ? or email_id = ? ", array($user_name, $email_id));
 		// There is no error then insert data in to database.
 		if($check_duplicate == 0)
 		{
-			$salt = "#asd!&%lkjhgd@@@";
 			$hash_password = md5(md5($salt) + md5($password));
 			$result = execute_query("INSERT INTO user_data (privilege, first_name, last_name, user_name, email_id, password, address_line1, address_line2, city, zip_code, state, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",array(1, $first_name, $last_name, $user_name, $email_id, $hash_password, $address_line1, $address_line2, $city, $zip_code, $state, $country));
-			$_SESSION['success_msg'] = "You are registered successfully. Please login to view your profile";
-			header('location: ../user_login.php');	
+			$_SESSION['success_msg'] = "You are registered successfully.";
+			$user = get_row("select user_id, privilege from user_data where user_name = ? ", array($user_name));
+			$_SESSION['user_id'] = $user['user_id'];
+			$_SESSION['privilege'] = $user['privilege'];
+			header('location: ../user_profile.php');	
 		}
 		else
 		{
-			$_SESSION['duplicate_user'] = "This email or user name already exist.";
+			if($user_name == $check_duplicate['user_name'])
+			{
+				$_SESSION['errors']['user_name'] = "This user name already exist.";
+			}
+			if($email_id == $check_duplicate['email_id'])
+			{
+				$_SESSION['errors']['email_id'] = "This email id already exist.";
+			}
 			$_SESSION['data'] = $_POST;
 			header('location: ../registration.php');
 		}

@@ -38,7 +38,6 @@
                    			echo  '<label class="col-md-11 text-success text-center">' . $success_msg . '</label>';
                 		}
 					?>
-   					</label>
   				</div>
   				<div class="form-group">
    					<label for="user_name" class="col-md-4 control-label">User name:</label>

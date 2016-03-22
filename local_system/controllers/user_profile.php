@@ -9,9 +9,9 @@
 	{
 		$$key = trim($value);	
 	}
-	
 	//Update profile picture
-	$target_dir = "/var/www/local_system/user_profiles/";
+	$path =getcwd();
+	$target_dir = dirname($path)."/user_profiles/";
 	$imageFileType = pathinfo($_FILES["profile_pic"]["name"],PATHINFO_EXTENSION);
 	$target_file = $target_dir . $edit_user_id . "." . $imageFileType ;
 	$_SESSION['upload_error'] = array();
@@ -24,11 +24,6 @@
     	{
         	$_SESSION['upload_error'][] = "File is not an image.";
     	}
-		// Check if file already exists
-		if (file_exists($target_file)) 
-		{
-		   unlink($target_file);
-		}
 		// Check file size
 		if ($_FILES["profile_pic"]["size"] > 700000) 
 		{
@@ -48,16 +43,22 @@
 		} 
 		else 
 		{
-		   if (move_uploaded_file($_FILES["profile_pic"]["tmp_name"], $target_file)) 
-		   {
-		   	$result = execute_query("UPDATE user_data SET  profile_pic = '". $edit_user_id . "." . $imageFileType . "' WHERE user_id = '".$edit_user_id."'");
+			// Check if file already exists
+			if (file_exists($target_file)) 
+			{
+		   		unlink($target_file);
+			}
+			// If no errors in uploaded file than copy it in folder and inseart path in database 
+		   	if (move_uploaded_file($_FILES["profile_pic"]["tmp_name"], $target_file)) 
+		   	{
+		   		$result = execute_query("UPDATE user_data SET  profile_pic = '". $edit_user_id . "." . $imageFileType . "' WHERE user_id = '".$edit_user_id."'");
 		    	$_SESSION['edit_user'] = $edit_user_id;
 		    	$_SESSION['upload_success'] = "Profile photo updated successfully.";
 		    	header('location: ../user_profile.php');	
-		   } 
-		   else 
-		   {
-	      	echo "Sorry, there was an error uploading your file." . '<br/>';
+		   	} 
+		   	else 
+		    {
+	      		$_SESSION['upload_error'][] = "Sorry, there was an error uploading your file." . '<br/>';
 	    	}
 		}
 	}
@@ -122,7 +123,7 @@
 			if ($_SESSION['errors']['email_id'] == 0 || $_SESSION['errors']['email_id'] == 0)
 			{
 				// Checks if same user name or email id exist in database or not.
-				$check_duplicate = get_row("select user_id from user_data where (user_name = ? or email_id = ?) and user_id != ? ", array( $user_name, $email_id, $edit_user_id));
+				$check_duplicate = get_row("select user_name, email_id from user_data where (user_name = ? or email_id = ?) and user_id != ? ", array( $user_name, $email_id, $edit_user_id));
 				if($check_duplicate == 0)
 				{
 					if ($_SESSION['errors']['email_id'] == 0)
@@ -134,7 +135,14 @@
 				}
 				else
 				{
-					$_SESSION['errors']['duplicate_user'] = "This email or user name already exist.";
+					if($user_name == $check_duplicate['user_name'])
+					{
+						$_SESSION['errors']['user_name'] = "This user name already exist.";
+					}
+					if($email_id == $check_duplicate['email_id'])
+					{
+						$_SESSION['errors']['email_id'] = "This email id already exist.";
+					}
 					$_SESSION['edit_user'] = $edit_user_id;
 					header('location: ../user_profile.php');
 				}
@@ -158,7 +166,6 @@
 			}
 			else
 			{
-				$salt = "#asd!&%lkjhgd@@@";
 				$hash_password = md5(md5($salt) + md5($password));
 				$query .= " password = '" . $hash_password . "',";
 			}
@@ -235,4 +242,5 @@
 			header('location: ../user_profile.php');	
 		}
 	}
+	//header('location: ../user_profile.php');
 ?>

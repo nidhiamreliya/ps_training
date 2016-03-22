@@ -32,6 +32,24 @@ function form_validation()
 			document.registration.last_name.focus();  
 			return false;  
 		}
+		if (! city.match(letters))  
+		{  
+			alert("Invalid city name");
+			document.registration.city.focus();  
+			return false;  
+		}
+		if (! state.match(letters))  
+		{  
+			alert("Invalid state name");
+			document.registration.state.focus();  
+			return false;  
+		}
+		if (! country.match(letters))  
+		{  
+			alert("Invalid country name");
+			document.registration.country.focus();  
+			return false;  
+		}        
 		var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
 		if( ! email_id.match(mailformat))  
 		{  
@@ -57,7 +75,8 @@ function form_validation()
 			alert('You have entered an invalid zip code!');  
 			document.registration.zip_code.focus();  
 			return false;     
-		}  
+		}
+		
 	}
 	return true;
 }

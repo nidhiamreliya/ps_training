@@ -1,6 +1,7 @@
 <?php
 	include('../config/database.php');
 	include('../includes/session.php');
+	include('../config/globals.php');
 	foreach ($_POST as $key => $value)
 	{
 		$$key = trim($value);	
@@ -19,10 +20,10 @@
 	if(count($_SESSION['error']) == 0)
 	{
 		// Check if user data available in database or not
-		$salt = "#asd!&%lkjhgd@@@";
 		$hash_password = md5(md5($salt) + md5($password));
-		$result = get_rows("select user_id, privilege from user_data where (user_name = ? or email_id = ?) and password = ? ", array($user_name, $user_name, $hash_password));
-		if($result == 0)
+		$result = get_row("select user_id, privilege from user_data where (user_name = ? or email_id = ?) and password = ?", array($user_name, $user_name, $hash_password));
+		print_r($result);
+		if($result == null)
 		{
 			$_SESSION['error'][] = "Invalid user name or password.";
 			$_SESSION['data'] = $user_name;

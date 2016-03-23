@@ -7,7 +7,7 @@ function login_check()
 		alert ( "Please enter user name." );
 		return false;
 	}
-	if(password == "")
+	else if(password == "")
 	{
 		alert ( "Please enter password." );
 		return false;

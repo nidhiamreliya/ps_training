@@ -33,7 +33,7 @@
 				<h1>Registration Form</h1>
 			</div>	
 			<!-- Registration form -->	
-			<form class="form-horizontal reg_form" method="post" action="controllers/registration.php" name="registration" id="registration" onsubmit = "return form_validation()">
+			<form class="form-horizontal reg_form" autocomplete = "off" method="post" action="controllers/registration.php" name="registration" id="registration" onsubmit = "return form_validation()">
           <div class="form-group">
    					<label for="first name" class="col-md-4 control-label">First name:</label>
    					<div class="col-md-8">

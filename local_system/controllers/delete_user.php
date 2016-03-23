@@ -15,7 +15,7 @@
 		else 
 		{
 			$result = execute_query("DELETE FROM user_data where user_id= ?", array($_GET['id']));
-			$_SESSION['message'] = "Record has been removed."; 
+			$_SESSION['message'] = "Record has been successfully deleted."; 
 		}
 	}
 	header('location: ../admin_panel.php');

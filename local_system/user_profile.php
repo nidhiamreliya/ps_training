@@ -1,6 +1,8 @@
 <?php
 	include('includes/session.php');
 	include('config/globals.php');
+	//check authenticatin
+  	include('controllers/check_authentication.php');
 	// Check if any errors in submitting form.
     $upload_message = array(); 
 	if (isset($_SESSION['upload_error']) && count($_SESSION['upload_error']) > 0)
@@ -24,8 +26,6 @@
     	$error_message =  $_SESSION['errors'];
     	unset($_SESSION['errors']); 
   	}
-  	//check authenticatin
-  	include('controllers/check_authentication.php');
 	if(isset($_GET['id']))
 	{
 		if ($_GET['id'] == "")
@@ -70,7 +70,7 @@
 				<div class="col-md-3 col-md-offset-3 text-right">
 					<ul class="nav nav-pills">
   						<li role="presentation"><a value="Log out" class="btn-success btn_head" name="logout" href="controllers/log_out.php">Log out</a></li>
-  						<li role="presentation"><a value="back" class="btn-success btn_head"  name="back" href="<?php if($_SESSION['privilege'] == 2) { echo "admin_panel.php"; unset($_SESSION['edit_user']); } else { echo "controllers/log_out.php"; } ?>">Back</a></li>
+  						<li role="presentation"><a value="back" class="btn-success btn_head"  name="back" href="<?php if($_SESSION['privilege'] == 2) { echo "admin_panel.php"; } else { echo "controllers/log_out.php"; } ?>">Back</a></li>
 					</ul>				
 				</div>
 		    </div>  
@@ -80,11 +80,11 @@
 				<!-- Form for update user profile picture -->	
 				<form class="form-horizontal reg_form col-md-3 col_profil_pic text-center" method="post" action="controllers/user_profile.php" name="edit_profilepic" onsubmit="return checkpic()" enctype="multipart/form-data">
 					<div class="text-center form_group">
-		         		<img  class="img-rounded profile_pic"  src="user_profiles/<? if($post_data['profile_pic'] != null) { echo $post_data['profile_pic']; } else { echo "default_profile.jpg"; }?>" alt="Profile not set">
+		         		<img  class="img-rounded profile_pic"  src="user_profiles/<?php if($post_data['profile_pic'] != null) { echo $post_data['profile_pic']; } else { echo "default_profile.jpg"; }?>" alt="Profile not set">
 		            	<h6>Upload a different photo...</h6>
 		            	<input type="file" name="profile_pic" class="form-control" id="profile_pic">
 		 				<input type="submit" value="Upload Image" class="form-control btn btn-success" name="img_submit">
-		 				<input type="hidden" name="edit_user_id" id="edit_user_id" value="<?=isset($post_data['user_id']) ? $post_data['user_id'] : ''?>">
+		 				<input type="hidden" name="edit_user_id" id="edit_user_id" value="<?php echo isset($post_data['user_id']) ? $post_data['user_id'] : ''?>">
 		 				<div class="col-md-12">
 			 				<?php 
 		                		if(isset($upload_message)) 
@@ -122,7 +122,7 @@
 			  			<div class="form-group">
 	   					<label for="first_name" class="col-md-4 control-label">First name:</label>
 	   					<div class="col-md-8">
-	   						<input type="hidden" name="edit_user_id" id="edit_user_id" value="<?=isset($post_data['user_id']) ? $post_data['user_id'] : 'NOT ANYTHING'?>">
+	   						<input type="hidden" name="edit_user_id" id="edit_user_id" value="<?php echo isset($post_data['user_id']) ? $post_data['user_id'] : 'NOT ANYTHING'?>">
 	    					<input type="text" class="form-control" name="first_name" id="first_name" placeholder="First name" value="<?php echo isset($post_data['first_name']) ? $post_data['first_name']: ''?>">
 	    					<label class="col-md-8 error_class">
 					            <?php 
@@ -151,7 +151,7 @@
 						<div class="form-group">
    							<label for="email_id" class="col-md-4 control-label">E-mail:</label>
    							<div class="col-md-8">
-    							<input type="text" class="form-control" id="email_id" name="email_id" <?if($_SESSION['privilege']==1) { echo "disabled"; }else{ echo "enabled";} ?> placeholder="Example@Email.com" value="<?php echo isset($post_data['email_id']) ? $post_data['email_id']: ''?>">
+    							<input type="text" class="form-control" id="email_id" name="email_id" <?php if($_SESSION['privilege']==1) { echo "disabled"; }else{ echo "enabled";} ?> placeholder="Example@Email.com" value="<?php echo isset($post_data['email_id']) ? $post_data['email_id']: ''?>">
     							<label class="col-md-8 error_class">
 			    					<?php 
 					               		if(isset($error_message['email_id'])) 
@@ -165,7 +165,7 @@
 	  					<div class="form-group">
 	   						<label for="user_name" class="col-md-4 control-label">User name:</label>
 	   						<div class="col-md-8">
-		    					<input type="text" class="form-control" id="user_name" name="user_name" placeholder="User name" <?if($_SESSION['privilege']==1) { echo "disabled"; }else{ echo "enabled";} ?> value="<?php echo isset($post_data['user_name']) ? $post_data['user_name']: ''?>">
+		    					<input type="text" class="form-control" id="user_name" name="user_name" placeholder="User name" <?php if($_SESSION['privilege']==1) { echo "disabled"; }else{ echo "enabled";} ?> value="<?php echo isset($post_data['user_name']) ? $post_data['user_name']: ''?>">
 		    					<label class="col-md-8 error_class">
 				              		<?php 
 				               			if(isset($error_message['user_name'])) 

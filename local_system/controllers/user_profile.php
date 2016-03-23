@@ -130,7 +130,7 @@
 					{
 						$query .= " email_id = '" . $email_id . "',";
 					}
-					else if($_SESSION['errors']['user_name'] == 0)
+					if($_SESSION['errors']['user_name'] == 0)
 					$query .= " user_name = '" . $user_name . "',";
 				}
 				else
@@ -242,5 +242,5 @@
 			header('location: ../user_profile.php');	
 		}
 	}
-	//header('location: ../user_profile.php');
+	header('location: ../user_profile.php');
 ?>

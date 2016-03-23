@@ -1,4 +1,3 @@
-
 <?php
 	//This is for check errors in submitting form.
 	include('includes/session.php');
@@ -12,11 +11,6 @@
 		$post_data = $_SESSION['data'];
 		unset($_SESSION['data']);	
 	}
-	if (isset($_SESSION['success_msg']))
-  	{
-  		$success_msg = $_SESSION['success_msg'];
-  		unset($_SESSION['success_msg']);
-  	}
 	//This includes header of the page
 	include('includes/header.php');
 ?>

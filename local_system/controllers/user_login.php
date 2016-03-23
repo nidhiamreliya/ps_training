@@ -22,7 +22,6 @@
 		// Check if user data available in database or not
 		$hash_password = md5(md5($salt) + md5($password));
 		$result = get_row("select user_id, privilege from user_data where (user_name = ? or email_id = ?) and password = ?", array($user_name, $user_name, $hash_password));
-		print_r($result);
 		if($result == null)
 		{
 			$_SESSION['error'][] = "Invalid user name or password.";

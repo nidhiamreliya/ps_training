@@ -107,10 +107,10 @@
 		{
 			$hash_password = md5(md5($salt) + md5($password));
 			$result = execute_query("INSERT INTO user_data (privilege, first_name, last_name, user_name, email_id, password, address_line1, address_line2, city, zip_code, state, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",array(1, $first_name, $last_name, $user_name, $email_id, $hash_password, $address_line1, $address_line2, $city, $zip_code, $state, $country));
-			$_SESSION['success_msg'] = "You are registered successfully.";
+			$_SESSION['success_msg'] = "You have successfully registered and logged in.";
 			$user = get_row("select user_id, privilege from user_data where user_name = ? ", array($user_name));
 			$_SESSION['user_id'] = $user['user_id'];
-			$_SESSION['privilege'] = $user['privilege'];
+			$_SESSION['privilege'] = 1;
 			header('location: ../user_profile.php');	
 		}
 		else
